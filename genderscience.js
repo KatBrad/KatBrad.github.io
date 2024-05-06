@@ -50,7 +50,7 @@ define(['pipAPI','https://cdn.jsdelivr.net/gh/baranan/minno-tasks@0.*/IAT/iat10.
 				height : 4 //Used to position the "Or" in the combined block.
 			}, 
 			stimulusMedia : [ //Stimuli content as PIP's media objects
-				{word: 'Astronomy'},
+				{word: 'Computing'},
 				{word: 'Math'},
 				{word: 'Chemistry'},
 				{word: 'Physics'},
