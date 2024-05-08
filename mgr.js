@@ -86,10 +86,10 @@ define(['managerAPI',
             scriptUrl: 'explicits.js'
         }],
 
-        genderscience: [{
+        raceiat: [{
             type: 'time',
             name: 'genderscience',
-            scriptUrl: 'genderscience.js'
+            scriptUrl: 'raceiat.js'
         }],
 
         lastpage: [{
