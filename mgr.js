@@ -88,7 +88,7 @@ define(['managerAPI',
 
         raceiat: [{
             type: 'time',
-            name: 'genderscience',
+            name: 'raceiat',
             scriptUrl: 'raceiat.js'
         }],
 
