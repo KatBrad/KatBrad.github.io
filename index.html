@@ -3,14 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Input Example</title>
+    <title>Text Input URL Appender</title>
 </head>
 <body>
-    <form>
-        <label for="pt">Enter Research Participant Code:</label>
-        <input type="text" id="pt" name="pt">
-        <button type="submit">Submit</button>
-    </form>
+    <label for="textInput">Enter Text:</label>
+    <input type="text" id="pt" name="pt">
+    <button onclick="appendToURL()">Append to URL</button>
+
+    <script>
+        function appendToURL() {
+            // Get the text from the input field
+            var text = document.getElementById("textInput").value;
+            // Encode the text to make it URL-safe
+            var encodedText = encodeURIComponent(text);
+            // Append the text to the URL
+            var baseUrl = "https://katbrad.github.io/exampleiat.html?";
+            var finalUrl = baseUrl + "text=" + encodedText;
+            // Redirect to the new URL
+            window.location.href = finalUrl;
+        }
+    </script>
 </body>
 </html>
 
