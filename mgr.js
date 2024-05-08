@@ -5,7 +5,7 @@ define(['managerAPI',
 	//You can use the commented-out code to get parameters from the URL.
 	const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const textInput = urlParams.get('textInput');
+    const text = urlParams.get('text');
 
 	var API    = new Manager();
 	//const subid = Date.now().toString(16)+Math.floor(Math.random()*10000).toString(16);
