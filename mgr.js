@@ -92,15 +92,15 @@ define(['managerAPI',
             scriptUrl: 'raceiat.js'
         }],
 
-//        lastpage: [{
-//            type: 'message',
-//            name: 'lastpage',
- //           templateUrl: 'lastpage.jst',
-//            title: 'End',
+        lastpage: [{
+            type: 'message',
+            name: 'lastpage',
+           templateUrl: 'lastpage.jst',
+            title: 'End',
             //Uncomment the following if you want to end the study here.
- //           last:true, 
-//            header: 'You have completed the study'
-  //      }], 
+           last:true, 
+            header: 'You have completed the study'
+      }], 
         
         //Use if you want to redirect the participants elsewhere at the end of the study
         redirect:
