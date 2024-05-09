@@ -98,7 +98,7 @@ define(['managerAPI',
             templateUrl: 'lastpage.jst',
             title: 'End',
             //Uncomment the following if you want to end the study here.
-            //last:true, 
+            last:true, 
             header: 'You have completed the study'
         }], 
         
