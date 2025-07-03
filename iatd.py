@@ -14,9 +14,10 @@ for file in os.listdir(folder_path):
         file_path = os.path.join(folder_path, file)
         df = pd.read_csv(file_path)
 
-        # Ensure necessary columns are numeric
+        # Ensure necessary columns are correctly typed
         df.iloc[:, 4] = pd.to_numeric(df.iloc[:, 4], errors='coerce')  # Column E
         df.iloc[:, 10] = pd.to_numeric(df.iloc[:, 10], errors='coerce')  # Column K
+        df.iloc[:, 8] = df.iloc[:, 8].astype(str)  # Column I
 
         results = {}
 
@@ -28,14 +29,14 @@ for file in os.listdir(folder_path):
             7: ('MnB2', 'SDB2', 'NB2'),
         }
 
-        # Calculate mean, SD, and count for each block (using only column K)
+        # Calculate mean, SD, and count for each block
         for k_val, (mn, sd, n) in block_defs.items():
             block_data = df[df.iloc[:, 10] == k_val].iloc[:, 4].dropna()
             results[mn] = block_data.mean()
             results[sd] = block_data.std()
             results[n] = block_data.count()
 
-        # Calculate differences
+        # Compute latency differences
         results['B1 - A1'] = results['MnB1'] - results['MnA1']
         results['B2 - A2'] = results['MnB2'] - results['MnA2']
 
@@ -62,10 +63,25 @@ for file in os.listdir(folder_path):
         results['IAT2'] = results['B2 - A2'] / results['Inclusive SD2'] if results['Inclusive SD2'] else np.nan
         results['IAT-D'] = np.nanmean([results['IAT1'], results['IAT2']])
 
-        # Store for summary
+        # Reverse score if block 3 had counter-stereotypical mapping
+        reverse_condition = (
+            ((df.iloc[:, 10] == 3) & 
+             (df.iloc[:, 8] == "Liberal Arts/Male,Science/Female")).any()
+        )
+        if reverse_condition:
+            results['IAT-D'] *= -1
+
+        # Capture block condition from row 3, column I (row index 2, col index 8)
+        try:
+            block_condition = df.iloc[2, 8]
+        except:
+            block_condition = "Not Available"
+
+        # Store summary
         summary_data.append({
             "File_ID": file[:12],
-            "IAT-D": results['IAT-D']
+            "IAT-D": results['IAT-D'],
+            "Block Condition": block_condition
         })
 
         # Append results to file
@@ -85,17 +101,18 @@ for file in os.listdir(folder_path):
             ['IAT-D', results['IAT-D']]
         ]
 
-        # Append to the original DataFrame
+        # Append to original DataFrame
         append_df = pd.DataFrame(append_rows, columns=list(df.columns[:2]))
         df_updated = pd.concat([df, append_df], ignore_index=True)
 
         # Save updated file
-        output_filename = file.replace('.csv', '_IAT.csv')
+        output_filename = file.replace('.csv', '_with_IAT_stats.csv')
         df_updated.to_csv(os.path.join(folder_path, output_filename), index=False)
         print(f"✅ Processed: {output_filename}")
 
-# === Create IAT-D summary file ===
+# === Create final summary file ===
 summary_df = pd.DataFrame(summary_data)
 summary_df.to_csv(os.path.join(folder_path, 'IAT_summary.csv'), index=False)
 print("📊 Summary file saved as 'IAT_summary.csv'")
+
 
